@@ -36,7 +36,8 @@ public class Database {
 	 * 
 	 */
 	public enum Value {
-		LEFT_POWER, /*GYRO, LEFT_ENCODER*/; // RIGHT_ENCODER, RIGHT_POWER; // add
+		LEFT_POWER, LEFT_ENCODER, RIGHT_POWER, RIGHT_ENCODER, GYRO,
+		THROTTLE_VALUE, WHEEL_TWIST; // add
 										// buttons
 
 	}
@@ -146,7 +147,7 @@ public class Database {
 	 * joystick values
 	 */
 	public void log() {
-
+		
 	}
 
 }

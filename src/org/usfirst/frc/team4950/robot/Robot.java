@@ -23,7 +23,7 @@ import org.usfirst.frc.team4950.robot.autoplay.FlusherThread;
 import org.usfirst.frc.team4950.robot.autoplay.Translator;
 import org.usfirst.frc.team4950.robot.autoplay.UpdaterThread;
 import org.usfirst.frc.team4950.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4950.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team4950.robot.subsystems.DriveTrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,7 +34,7 @@ import org.usfirst.frc.team4950.robot.subsystems.ExampleSubsystem;
  */
 public class Robot extends IterativeRobot {
 	
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	public static final DriveTrain driveTrain = new DriveTrain();
 	public static OI oi;
 	public static UpdaterThread updater;
 	public static FlusherThread flusher;
@@ -62,7 +62,7 @@ public class Robot extends IterativeRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		Map<String, Supplier<Command>> systemsMap = new HashMap<>();
-		systemsMap.put("EXAMPLE_SUBSYSTEM", () -> exampleSubsystem.getCurrentCommand());
+		systemsMap.put("EXAMPLE_SUBSYSTEM", () -> driveTrain.getCurrentCommand());
 		
 		sense = new SensorThread(10);
 		translate = new Translator();
