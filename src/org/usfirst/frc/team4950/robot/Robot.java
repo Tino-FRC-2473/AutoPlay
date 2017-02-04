@@ -61,7 +61,7 @@ public class Robot extends IterativeRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		Map<String, Supplier<Command>> systemsMap = new HashMap<>();
-		//systemsMap.put("EXAMPLE_SUBSYSTEM", () -> driveTrain.getCurrentCommand());
+		systemsMap.put("EXAMPLE_SUBSYSTEM", () -> driveTrain.getCurrentCommand());
 		
 		sense = new SensorThread(10);
 		translate = new Translator();
