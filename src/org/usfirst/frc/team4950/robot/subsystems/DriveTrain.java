@@ -23,15 +23,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTrain extends Subsystem {
     
-	private SpeedController leftFrontCAN;
-	private SpeedController rightFrontCAN;
-	private SpeedController leftBackCAN;
-	private SpeedController rightBackCAN;
+	private CANTalon leftFrontCAN;
+	private CANTalon rightFrontCAN;
+	private CANTalon leftBackCAN;
+	private CANTalon rightBackCAN;
 
 	private RobotDrive drive;
-	
-	private double leftPow;
-	private double rightPow;
 	
 	private ReentrantReadWriteLock rwLock;
 	
@@ -51,9 +48,6 @@ public class DriveTrain extends Subsystem {
 		drive.setInvertedMotor(MotorType.kFrontRight, true);
 		drive.setInvertedMotor(MotorType.kRearRight, true);
 		
-		leftPow = 0;
-		rightPow = 0;
-		
 		rwLock = new ReentrantReadWriteLock();
 	}
 	
@@ -63,28 +57,24 @@ public class DriveTrain extends Subsystem {
     }
     
     public void drive(double left, double right) {
-    	drive.tankDrive(left, right);
-   
+    	rwLock.readLock().lock();
+    	try {
+    		drive.tankDrive(left, right);
+    	} finally {
+    		rwLock.writeLock().unlock();
+    	}
 	}
 
     public void driveArcade(double speed, double rotate) {
     	drive.arcadeDrive(speed, rotate);
     }
     
-    public void drive() {
-    	rwLock.readLock().lock();
-    		drive.tankDrive(leftPow, rightPow);
+    public double getLPower() {
+    	return leftFrontCAN.get();
     }
     
-    public void setPow(double l, double r) {
-    	rwLock.writeLock().lock();
-    	try {
-    		leftPow = l;
-    		rightPow = r;
-    	}
-    	finally {
-    		rwLock.writeLock().unlock();
-    	}
+    public double getRPower() {
+    	return rightFrontCAN.get();
     }
 }
 

@@ -58,7 +58,6 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		//gyro = new AnalogGyro();
-		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		Map<String, Supplier<Command>> systemsMap = new HashMap<>();

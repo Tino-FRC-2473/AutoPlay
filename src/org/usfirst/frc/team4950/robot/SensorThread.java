@@ -13,7 +13,7 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 
 
-public class SensorThread extends Thread{
+public class SensorThread extends Thread {
 
 	//add new sensors here
 	AnalogGyro gyro;
