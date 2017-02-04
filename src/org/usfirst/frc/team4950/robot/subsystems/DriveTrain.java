@@ -5,6 +5,8 @@ import org.usfirst.frc.team4950.robot.Robot;
 import org.usfirst.frc.team4950.robot.RobotMap;
 import org.usfirst.frc.team4950.robot.commands.Drive;
 
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -28,6 +30,11 @@ public class DriveTrain extends Subsystem {
 
 	private RobotDrive drive;
 	
+	private double leftPow;
+	private double rightPow;
+	
+	private ReentrantReadWriteLock rwLock;
+	
 	public DriveTrain() {
 		super();
 		
@@ -44,7 +51,10 @@ public class DriveTrain extends Subsystem {
 		drive.setInvertedMotor(MotorType.kFrontRight, true);
 		drive.setInvertedMotor(MotorType.kRearRight, true);
 		
+		leftPow = 0;
+		rightPow = 0;
 		
+		rwLock = new ReentrantReadWriteLock();
 	}
 	
 	@Override
@@ -59,7 +69,22 @@ public class DriveTrain extends Subsystem {
 
     public void driveArcade(double speed, double rotate) {
     	drive.arcadeDrive(speed, rotate);
-   
-	}
+    }
+    
+    public void drive() {
+    	rwLock.readLock().lock();
+    		drive.tankDrive(leftPow, rightPow);
+    }
+    
+    public void setPow(double l, double r) {
+    	rwLock.writeLock().lock();
+    	try {
+    		leftPow = l;
+    		rightPow = r;
+    	}
+    	finally {
+    		rwLock.writeLock().unlock();
+    	}
+    }
 }
 

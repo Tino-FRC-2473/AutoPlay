@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4950.robot.autoplay;
 
-import org.usfirst.frc.team4950.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team4950.robot.Robot;
+import org.usfirst.frc.team4950.robot.subsystems.DriveTrain;
 
 public class Translator extends Thread{
 
@@ -15,7 +16,7 @@ public class Translator extends Thread{
 	public void run() {
 		while (alive) {
 			Reading r = m.getReading(x);
-			ExampleSubsystem.power(r.getLeftPow());
+			Robot.driveTrain.setPow(r.getLeftPow(),r.getRightPow());
 			x++;
 			if (x >= m.getReadings().size()) {
 				alive = false;
