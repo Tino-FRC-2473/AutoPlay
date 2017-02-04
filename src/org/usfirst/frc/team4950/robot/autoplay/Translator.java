@@ -6,19 +6,19 @@ import org.usfirst.frc.team4950.robot.subsystems.DriveTrain;
 public class Translator extends Thread{
 
 	Moments m;
-	int x;
+	int index;
 	boolean alive = true;
 
 	public Translator() {
 		m = new Moments();
-		x = 0;
+		index = 0;
 	}
 	public void run() {
 		while (alive) {
-			Reading r = m.getReading(x);
-			Robot.driveTrain.setPow(r.getLeftPow(),r.getRightPow());
-			x++;
-			if (x >= m.getReadings().size()) {
+			Reading r = m.getReading(index);
+			Robot.driveTrain.drive(r.getLeftPow(),r.getRightPow());
+			index++;
+			if (index >= m.getReadings().size()) {
 				alive = false;
 			}
 			try {

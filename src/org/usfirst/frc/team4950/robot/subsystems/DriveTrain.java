@@ -57,7 +57,7 @@ public class DriveTrain extends Subsystem {
     }
     
     public void drive(double left, double right) {
-    	rwLock.readLock().lock();
+    	rwLock.writeLock().lock();
     	try {
     		drive.tankDrive(left, right);
     	} finally {
@@ -70,11 +70,23 @@ public class DriveTrain extends Subsystem {
     }
     
     public double getLPower() {
-    	return leftFrontCAN.get();
+    	rwLock.readLock().lock();
+    	try {
+        	return leftFrontCAN.get();
+    	}
+    	finally {
+    		rwLock.readLock().unlock();
+    	}
     }
     
     public double getRPower() {
-    	return rightFrontCAN.get();
+    	rwLock.readLock().lock();
+    	try {
+        	return rightFrontCAN.get();
+    	}
+    	finally {
+    		rwLock.readLock().unlock();
+    	}
     }
 }
 

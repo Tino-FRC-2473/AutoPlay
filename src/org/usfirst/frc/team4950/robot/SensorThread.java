@@ -50,7 +50,8 @@ public class SensorThread extends Thread {
 		callMap.put(Value.GYRO, () -> gyro.getAngle());
 		callMap.put(Value.RIGHT_ENCODER, () -> (rightEncoder.getEncPosition() - rightEncoderZero )* Database.RIGHT_ENC_CONSTANT);
 		callMap.put(Value.LEFT_ENCODER, () -> -(leftEncoder.getEncPosition() - leftEncoderZero )* Database.LEFT_ENC_CONSTANT);
-		
+		callMap.put(Value.LEFT_POWER, () -> leftEncoder.get());
+		callMap.put(Value.RIGHT_POWER, () -> rightEncoder.get());		
 		
 		
 		callMap = Collections.unmodifiableMap(callMap);
