@@ -32,7 +32,7 @@ public class TranscriptionClient {
 		FileWriter writer;
 		try {
 			//change team # when necessary
-			String path = "src/org/usfirst/frc/team4950/robot/extras/Moments.java";
+			String path = "package org.usfirst.frc.team4950.robot.autoplay;";
 			File f = new File(path);
 			f.createNewFile();
 			writer = new FileWriter(f);
@@ -52,7 +52,9 @@ public class TranscriptionClient {
 				writer.write(readings.get(i).getRightPow() + ", ");
 				writer.write(readings.get(i).getGyro() + ", ");
 				writer.write(readings.get(i).getLeftEnc() + ", ");
-				writer.write(readings.get(i).getRightEnc() + ")");
+				writer.write(readings.get(i).getRightEnc() + ",");
+				writer.write(readings.get(i).getGearMech() + ",");
+				writer.write(readings.get(i).getShooter() + ")");
 				if(i < readings.size()-1) {
 					writer.write(",");
 				}
@@ -62,8 +64,8 @@ public class TranscriptionClient {
 			writer.write("        )" + "\n");
 			writer.write("    );" + "\n");
 			writer.write("\n");
-			writer.write("    public ArrayList<Reading> getReadings() { return readings; }" + "\n");
-			writer.write("    public Reading getReading(int i) { return readings.get(i); }" + "\n");
+			writer.write("    public static Reading getReading(int i) { return readings.get(i); }" + "\n");
+			writer.write("    public static int getSize() { return readings.size(); }");
 			writer.write("}" + "\n");
 			
 			writer.close();

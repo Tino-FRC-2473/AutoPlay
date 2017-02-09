@@ -27,11 +27,9 @@ public class ExampleSubsystem extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	public static CANTalon leftMotor;
-	private static double power;
 	private static ReentrantReadWriteLock readWriteLock;
 	public ExampleSubsystem() {
 		leftMotor = new CANTalon(RobotMap.leftMotor);
-		power = 0;
 		readWriteLock = new ReentrantReadWriteLock();
 	}
 	public void initDefaultCommand() {
@@ -39,26 +37,13 @@ public class ExampleSubsystem extends Subsystem {
 			setDefaultCommand(new ExampleCommand());
 	}
 	
-	public void setPower(double p) {
-		leftMotor.set(p);
-	}
-	public static void autoPower() {
+	public void power(double p) {
 		readWriteLock.readLock().lock();
 		try {
-			leftMotor.set(power);
+			leftMotor.set(p);
 		}
 		finally {
 			readWriteLock.readLock().unlock();
-		}
-	}
-	
-	public static void power(double p) {
-		readWriteLock.writeLock().lock();
-		try {
-			power = p;
-		}
-		finally {
-			readWriteLock.writeLock().unlock();
 		}
 	}
 }

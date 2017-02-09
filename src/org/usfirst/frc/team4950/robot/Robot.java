@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -43,10 +41,7 @@ public class Robot extends IterativeRobot {
 	PrintStream out;
 	public static Translator translate;
 
-	public static boolean isRecordingForAutoPlay = true;
-	
-	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	public static boolean isRecordingForAutoPlay = false;
 	
 	public static ArrayBlockingQueue<String> tempData;
 
@@ -56,36 +51,50 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		oi = new OI();
-		//gyro = new AnalogGyro();
-		chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		System.out.println("\n**************************************************");
+		System.out.print("You are beginning to run AutoPlay, ");
+		if(isRecordingForAutoPlay) {
+			System.out.println("specifically the RECORDING part.");
+		} else {
+			System.out.println("specifically the REPLAYING part");
+		}
+		System.out.println("**************************************************");
+		System.out.println("If you want to change what portion of AutoPlay to run,");
+		System.out.println("change the isRecordingForAutoPlay boolean in Robot.");
+		
 		Map<String, Supplier<Command>> systemsMap = new HashMap<>();
 		systemsMap.put("EXAMPLE_SUBSYSTEM", () -> exampleSubsystem.getCurrentCommand());
 		
 		sense = new SensorThread(10);
-		translate = new Translator();
-		
 		
 		if(isRecordingForAutoPlay) {
 			tempData = new ArrayBlockingQueue<String>(200);
+			
+			ServerSocket server;
+			try {
+				System.out.println("**************************************************");
+				System.out.println("You are currently trying to record for AutoPlay.");
+				System.out.println("Start running the RecieverClient; robot code will remain red otherwise.");
+				System.out.println("**************************************************");
+				server = new ServerSocket(8080);
+				Socket socket = server.accept(); //It will get stuck on this line
+				System.out.println("**************************************************");
+				System.out.println("Connected; enable TeleOp and twist the joystick in port 1.\n");
+				System.out.println("**************************************************\n");
+				OutputStream rawOut = socket.getOutputStream();
+				out = new PrintStream(rawOut);
+				updater = new UpdaterThread(systemsMap);
+				flusher = new FlusherThread(out);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("**************************************************");
+			System.out.println("You are currently trying to AutoPlay from Moments.java");
+			System.out.println("Ensure that you have ran the TranscriptionClient to create Moments.java from moments.txt");
+			System.out.println("**************************************************\n");
+			translate = new Translator();
 		}
-		
-		ServerSocket server;
-		try {
-			server = new ServerSocket(8080);
-			Socket socket = server.accept();
-			OutputStream rawOut = socket.getOutputStream();
-			out = new PrintStream(rawOut);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	
-		
-		updater = new UpdaterThread(systemsMap);
-		flusher = new FlusherThread(out);
-		sense = new SensorThread(10);
 	}
 
 	/**
@@ -116,19 +125,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
-		
 		if(!isRecordingForAutoPlay)
 			translate.start();
 	}
@@ -139,6 +135,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		
 	}
 
 	@Override
@@ -147,8 +144,6 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
 		
 		sense.start();
 		if(isRecordingForAutoPlay) {

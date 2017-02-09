@@ -35,7 +35,7 @@ public class SensorThread extends Thread {
 		// add new sensors here
 		this.gyro = Robot.gyro;
 
-		leftEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		//leftEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		// rightEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 
 		resetEncoders();
@@ -49,7 +49,7 @@ public class SensorThread extends Thread {
 		//callMap.put(Value.LEFT_ENCODER, () -> leftEncoder.getEncPosition());
 		// callMap.put(Value.RIGHT_ENCODER, () ->
 		// rightEncoder.getEncPosition());
-		callMap.put(Value.LEFT_POWER, () -> leftEncoder.get());
+		callMap.put(Value.LEFT_POWER, () -> Robot.exampleSubsystem.leftMotor.get());
 		// callMap.put(Value.RIGHT_POWER, () -> rightEncoder.get());
 		//callMap.put(Value.GYRO, () -> gyro.getAngle());//
 
@@ -63,6 +63,7 @@ public class SensorThread extends Thread {
 	 * length while alive and running. When it is not running it simply waits
 	 * and stops running when it is not alive
 	 */
+
 	@Override
 	public void run() {
 		while (alive) {

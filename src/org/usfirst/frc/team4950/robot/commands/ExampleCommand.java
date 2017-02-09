@@ -22,8 +22,7 @@ public class ExampleCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.exampleSubsystem.setPower(OI.stick.getThrottle());
-		//Robot.exampleSubsystem.autoPower();
+		Robot.exampleSubsystem.power(OI.stick.getThrottle());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
