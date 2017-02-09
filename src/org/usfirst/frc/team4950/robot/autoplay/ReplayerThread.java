@@ -3,11 +3,11 @@ package org.usfirst.frc.team4950.robot.autoplay;
 import org.usfirst.frc.team4950.robot.Robot;
 import org.usfirst.frc.team4950.robot.subsystems.ExampleSubsystem;
 
-public class Translator extends Thread{
+public class ReplayerThread extends Thread {
 	int x;
 	boolean alive = true;
 
-	public Translator() {
+	public ReplayerThread() {
 		x = 0;
 	}
 	public void run() {

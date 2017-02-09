@@ -18,7 +18,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.function.Supplier;
 
 import org.usfirst.frc.team4950.robot.autoplay.FlusherThread;
-import org.usfirst.frc.team4950.robot.autoplay.Translator;
+import org.usfirst.frc.team4950.robot.autoplay.ReplayerThread;
 import org.usfirst.frc.team4950.robot.autoplay.UpdaterThread;
 import org.usfirst.frc.team4950.robot.commands.ExampleCommand;
 import org.usfirst.frc.team4950.robot.subsystems.ExampleSubsystem;
@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
 	public static AnalogGyro gyro;
 	SensorThread sense;
 	PrintStream out;
-	public static Translator translate;
+	public static ReplayerThread replayer;
 
 	public static boolean isRecordingForAutoPlay = false;
 	
@@ -93,7 +93,7 @@ public class Robot extends IterativeRobot {
 			System.out.println("You are currently trying to AutoPlay from Moments.java");
 			System.out.println("Ensure that you have ran the TranscriptionClient to create Moments.java from moments.txt");
 			System.out.println("**************************************************\n");
-			translate = new Translator();
+			replayer = new ReplayerThread();
 		}
 	}
 
@@ -126,7 +126,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		if(!isRecordingForAutoPlay)
-			translate.start();
+			replayer.start();
 	}
 
 	/**
