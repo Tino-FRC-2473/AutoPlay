@@ -35,7 +35,8 @@ import org.usfirst.frc.team4950.robot.subsystems.ButtonSubsystem;
 public class Robot extends IterativeRobot {
 	
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	public static final ButtonSubsystem buttonSubsystem = new ButtonSubsystem();
+	//public static final ButtonSubsystem buttonSubsystem = new ButtonSubsystem();
+	//public static final ButtonCommand buttonCommand = new ButtonCommand();
 	public static OI oi;
 	public static UpdaterThread updater;
 	public static FlusherThread flusher;
@@ -44,7 +45,7 @@ public class Robot extends IterativeRobot {
 	PrintStream out;
 	public static ReplayerThread replayer;
 
-	public static boolean isRecordingForAutoPlay = false;
+	public static boolean isRecordingForAutoPlay = true;
 	
 	public static ArrayBlockingQueue<String> tempData;
 
@@ -66,7 +67,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("change the isRecordingForAutoPlay boolean in Robot.");
 		
 		Map<String, Supplier<Command>> systemsMap = new HashMap<>();
-		systemsMap.put("BUTTON", () -> buttonSubsystem.getCurrentCommand());
+		//systemsMap.put("BUTTON", () -> buttonSubsystem.getCurrentCommand());
 		
 		sense = new SensorThread(10);
 		
@@ -81,7 +82,6 @@ public class Robot extends IterativeRobot {
 				System.out.println("**************************************************");
 				server = new ServerSocket(8080);
 				Socket socket = server.accept(); //It will get stuck on this line
-				System.out.println("**************************************************");
 				System.out.println("Connected; enable TeleOp and twist the joystick in port 1.\n");
 				System.out.println("**************************************************\n");
 				OutputStream rawOut = socket.getOutputStream();

@@ -44,7 +44,7 @@ public class OI {
 	public static Button button = new JoystickButton(stick,1);
 	
 	public OI() {
-		button.whileHeld(new ButtonCommand());
+		//button.whileHeld(Robot.buttonCommand);
 	}
 	
 }
