@@ -50,7 +50,7 @@ public class Database {
 	 *
 	 */
 	public enum ButtonName {
-		;
+		BUTTON;
 	}
 
 	/**

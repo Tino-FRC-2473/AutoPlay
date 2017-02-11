@@ -2,8 +2,10 @@ package org.usfirst.frc.team4950.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team4950.robot.commands.ExampleCommand;
+import org.usfirst.frc.team4950.robot.commands.ButtonCommand;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -38,4 +40,11 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	public static Joystick stick = new Joystick(1);
+	
+	public static Button button = new JoystickButton(stick,1);
+	
+	public OI() {
+		button.whileHeld(new ButtonCommand());
+	}
+	
 }

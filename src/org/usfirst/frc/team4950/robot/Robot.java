@@ -22,6 +22,8 @@ import org.usfirst.frc.team4950.robot.autoplay.ReplayerThread;
 import org.usfirst.frc.team4950.robot.autoplay.UpdaterThread;
 import org.usfirst.frc.team4950.robot.commands.ExampleCommand;
 import org.usfirst.frc.team4950.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team4950.robot.commands.ButtonCommand;
+import org.usfirst.frc.team4950.robot.subsystems.ButtonSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,6 +35,7 @@ import org.usfirst.frc.team4950.robot.subsystems.ExampleSubsystem;
 public class Robot extends IterativeRobot {
 	
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	public static final ButtonSubsystem buttonSubsystem = new ButtonSubsystem();
 	public static OI oi;
 	public static UpdaterThread updater;
 	public static FlusherThread flusher;
@@ -63,7 +66,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("change the isRecordingForAutoPlay boolean in Robot.");
 		
 		Map<String, Supplier<Command>> systemsMap = new HashMap<>();
-		systemsMap.put("EXAMPLE_SUBSYSTEM", () -> exampleSubsystem.getCurrentCommand());
+		systemsMap.put("BUTTON", () -> buttonSubsystem.getCurrentCommand());
 		
 		sense = new SensorThread(10);
 		
