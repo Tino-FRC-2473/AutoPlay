@@ -24,4 +24,9 @@ public class ButtonSubsystem extends Subsystem{
 		System.out.println("Button Command Ended");
 		started = false;
 	}
+	
+	public void printCancel() {
+		System.out.println("Button Command Canceled");
+		started = false;
+	}
 }
