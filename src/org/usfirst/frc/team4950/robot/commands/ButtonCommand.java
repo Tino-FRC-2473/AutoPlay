@@ -10,7 +10,7 @@ import org.usfirst.frc.team4950.robot.Robot;
  */
 public class ButtonCommand extends Command {
 	public ButtonCommand() {
-		// Use requires() here to declare subsystem dependencies
+		//requires(Robot.buttonSubsystem);
 	}
 
 	// Called just before this Command runs the first time
@@ -21,7 +21,7 @@ public class ButtonCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.buttonSubsystem.printStart();
+		//Robot.buttonSubsystem.printStart();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -33,7 +33,7 @@ public class ButtonCommand extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.buttonSubsystem.printEnd();
+		//Robot.buttonSubsystem.printEnd();
 	}
 
 	// Called when another command which requires one or more of the same

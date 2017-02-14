@@ -9,11 +9,11 @@ import java.util.Scanner;
 
 public class ReceiverClient {
     public static void main(String[] args) {
-        int port_number = 2005;
+        int port_number = 8080;
         File f;
         FileWriter writer;
 
-        try (Socket s = new Socket("RoboRIO-2473-FRC.local", port_number)) {
+        try (Socket s = new Socket("RoboRIO-4950-FRC.local", port_number)) {
             try (InputStream in = s.getInputStream()) {
                 try (Scanner scan = new Scanner(in)) {
                     System.out.print("connected");

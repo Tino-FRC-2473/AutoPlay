@@ -17,14 +17,14 @@ public class ReplayerThread extends Thread {
 			try {
 				Reading r = Moments.getReading(x);
 				Robot.exampleSubsystem.power(r.getLeftPow());
-				if (r.getGearMech()) {
+				/*if (r.getGearMech()) {
 					Robot.buttonSubsystem.printStart();
 				}
 				if (!r.getGearMech() && x-1 >= 0) {
 					Reading prev = Moments.getReading(x-1);
 					if (prev.getGearMech())
 						Robot.buttonSubsystem.printEnd();
-				}
+				}*/
 				x++;
 				if (x >= Moments.getSize()) {
 					alive = false;

@@ -62,7 +62,6 @@ public class OI {
 													// to get their values
 
 	public OI() {
-
 		tempButtonMap = new HashMap<>();
 
 		joyMap = new HashMap<>();
