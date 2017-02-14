@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4950.robot.subsystems;
 
+import org.usfirst.frc.team4950.robot.Robot;
 import org.usfirst.frc.team4950.robot.commands.ButtonCommand;
 
 
@@ -10,7 +11,7 @@ public class ButtonSubsystem extends Subsystem{
 	boolean started = false;
 	@Override
 	public void initDefaultCommand() {
-		setDefaultCommand(new ButtonCommand());		
+		//setDefaultCommand(Robot.buttonCommand);		
 	}
 
 	public void printStart() {

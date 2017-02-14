@@ -36,7 +36,7 @@ public class SensorThread extends Thread {
 		this.gyro = Robot.gyro;
 
 		//leftEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		// rightEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		//rightEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 
 		resetEncoders();
 
@@ -50,7 +50,7 @@ public class SensorThread extends Thread {
 		// callMap.put(Value.RIGHT_ENCODER, () ->
 		// rightEncoder.getEncPosition());
 		callMap.put(Value.LEFT_POWER, () -> Robot.exampleSubsystem.leftMotor.get());
-		// callMap.put(Value.RIGHT_POWER, () -> rightEncoder.get());
+		// callMap.put(Value.RIGHT_POWER, () -> Robot.exampleSubsystem.rightMotor.get().get());
 		//callMap.put(Value.GYRO, () -> gyro.getAngle());//
 
 		callMap = Collections.unmodifiableMap(callMap);

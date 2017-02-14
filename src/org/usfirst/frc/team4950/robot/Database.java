@@ -93,7 +93,7 @@ public class Database {
 		}
 
 	}
-
+	
 	/**
 	 * returns the value of the enum in a thread-safe manner
 	 * 
