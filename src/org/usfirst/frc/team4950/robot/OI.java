@@ -86,7 +86,7 @@ public class OI {
 
 		// Database.getInstance().getButton(ButtonName.TRIGGER).whenActive(new
 		// ButtonTest());
-		Database.getInstance().getButton(ButtonName.BUTTON).whenActive(new ButtonCommand());
+		Database.getInstance().getButton(ButtonName.BUTTON).whileHeld(new ButtonCommand());
 	}
 
 	public static Joystick getThrottle() {
