@@ -8,9 +8,11 @@ import org.usfirst.frc.team4950.robot.Robot;
 /**
  *
  */
-public class ButtonCommand extends Command {
-	public ButtonCommand() {
-		requires(Robot.buttonSubsystem);
+public class TimedCommand extends Command {
+	double timeOut;
+	public TimedCommand(int duration) {
+		requires(Robot.timerSubsystem);
+		timeOut = duration;
 	}
 
 	// Called just before this Command runs the first time
@@ -21,24 +23,25 @@ public class ButtonCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.buttonSubsystem.printStart();
+		Robot.timerSubsystem.printStart();
+		setTimeout(timeOut);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return isTimedOut();
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.buttonSubsystem.printEnd();
+		Robot.timerSubsystem.printEnd();
 	}
 	
 	@Override
 	public void cancel() {
-		Robot.buttonSubsystem.printCancel();
+		Robot.timerSubsystem.printCancel();
 	}
 
 	// Called when another command which requires one or more of the same

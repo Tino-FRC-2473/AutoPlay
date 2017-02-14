@@ -21,6 +21,7 @@ import org.usfirst.frc.team4950.robot.autoplay.FlusherThread;
 import org.usfirst.frc.team4950.robot.autoplay.ReplayerThread;
 import org.usfirst.frc.team4950.robot.autoplay.UpdaterThread;
 import org.usfirst.frc.team4950.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team4950.robot.subsystems.TimerSubsystem;
 import org.usfirst.frc.team4950.robot.commands.ButtonCommand;
 import org.usfirst.frc.team4950.robot.subsystems.ButtonSubsystem;
 
@@ -36,6 +37,7 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static final ButtonSubsystem buttonSubsystem = new ButtonSubsystem();
 	public static final ButtonCommand buttonCommand = new ButtonCommand();
+	public static final TimerSubsystem timerSubsystem = new TimerSubsystem();
 	public static OI oi;
 	public static UpdaterThread updater;
 	public static FlusherThread flusher;
@@ -68,6 +70,7 @@ public class Robot extends IterativeRobot {
 		
 		Map<String, Supplier<Command>> systemsMap = new HashMap<>();
 		systemsMap.put("BUTTON", () -> buttonSubsystem.getCurrentCommand());
+		systemsMap.put("TIMED", () -> timerSubsystem.getCurrentCommand());
 		
 		sense = new SensorThread(10);
 		

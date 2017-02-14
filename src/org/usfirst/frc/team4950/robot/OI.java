@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team4950.robot.commands.ExampleCommand;
+import org.usfirst.frc.team4950.robot.commands.TimedCommand;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -73,6 +74,7 @@ public class OI {
 		//EXAMPLE:
 		//buttonCallMap.put(ButtonName.SAMPLE, () -> getThrottle().getRawButton(0));
 		buttonCallMap.put(ButtonName.BUTTON, () -> getThrottle().getRawButton(0));
+		buttonCallMap.put(ButtonName.TIMED, () -> getThrottle().getRawButton(1));
 
 		buttonCallMap = Collections.unmodifiableMap(buttonCallMap);
 
@@ -85,7 +87,8 @@ public class OI {
 
 		// Database.getInstance().getButton(ButtonName.TRIGGER).whenActive(new
 		// ButtonTest());
-		Database.getInstance().getButton(ButtonName.BUTTON).whileHeld(Robot.buttonCommand);
+		Database.getInstance().getButton(ButtonName.BUTTON).whileHeld(new ButtonCommand());
+		Database.getInstance().getButton(ButtonName.TIMED).whileActive(new TimedCommand(10));
 	}
 
 	public static Joystick getThrottle() {
