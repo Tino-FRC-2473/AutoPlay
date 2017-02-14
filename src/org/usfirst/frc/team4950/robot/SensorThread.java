@@ -71,6 +71,7 @@ public class SensorThread extends Thread {
 			// System.out.println(System.currentTimeMillis() - lastTime);
 			
 			updateSensors();
+			Robot.oi.updateButtons();
 			//System.out.println();
 
 			lastTime = System.currentTimeMillis();

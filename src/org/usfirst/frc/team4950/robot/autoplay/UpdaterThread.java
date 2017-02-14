@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4950.robot.autoplay;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -12,11 +13,10 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class UpdaterThread extends Thread {
 	Map<String, Supplier<Command>> commandMap;
-	Map<String, DoubleSupplier> motorMaker; //unused??
 	boolean alive = true;
 
-	public UpdaterThread(Map<String, Supplier<Command>> systems) {
-		commandMap = systems;
+	public UpdaterThread() {
+		commandMap = new HashMap<>();
 		super.setDaemon(true);
 	}
 
@@ -32,11 +32,11 @@ public class UpdaterThread extends Thread {
 				for (Value v : Value.values()) {
 					str += (Database.getInstance().getValue(v) + " ");
 				}
-
-				for (String s : commandMap.keySet()) {
-					boolean b = commandMap.get(s).get() != null;
-					str += (b + " ");
-				}
+				
+				boolean b1 = Robot.buttonCommand.isRunning, b2 = Robot.timedCommand.isRunning;
+				
+				System.out.println(b1 + " " + b2);
+				str += (b1 + " " + b2 + " ");
 				//System.out.println("Updater added - " + str);
 				//System.out.println("Size: " + Robot.tempData.size());
 				Robot.tempData.add(str);

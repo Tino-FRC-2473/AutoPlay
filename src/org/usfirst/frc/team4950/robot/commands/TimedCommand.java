@@ -10,6 +10,7 @@ import org.usfirst.frc.team4950.robot.Robot;
  */
 public class TimedCommand extends Command {
 	double timeOut;
+	public boolean isRunning = false;
 	public TimedCommand(int duration) {
 		requires(Robot.timerSubsystem);
 		timeOut = duration;
@@ -19,10 +20,10 @@ public class TimedCommand extends Command {
 	@Override
 	protected void initialize() {
 	}
-
-	// Called repeatedly when this Command is scheduled to run
+	
 	@Override
-	protected void execute() {
+	public void start() {
+		isRunning = true;
 		Robot.timerSubsystem.printStart();
 		setTimeout(timeOut);
 	}
@@ -37,6 +38,7 @@ public class TimedCommand extends Command {
 	@Override
 	protected void end() {
 		Robot.timerSubsystem.printEnd();
+		isRunning = false;
 	}
 	
 	@Override

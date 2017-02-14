@@ -9,6 +9,7 @@ import org.usfirst.frc.team4950.robot.Robot;
  *
  */
 public class ButtonCommand extends Command {
+	public boolean isRunning;
 	public ButtonCommand() {
 		requires(Robot.buttonSubsystem);
 	}
@@ -18,11 +19,6 @@ public class ButtonCommand extends Command {
 	protected void initialize() {
 	}
 
-	// Called repeatedly when this Command is scheduled to run
-	@Override
-	protected void execute() {
-		Robot.buttonSubsystem.printStart();
-	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
@@ -30,15 +26,24 @@ public class ButtonCommand extends Command {
 		return false;
 	}
 
+	@Override
+	public void start() {
+		isRunning = true;
+		Robot.buttonSubsystem.printStart();
+	}
+	
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
+		System.out.print("e");
 		Robot.buttonSubsystem.printEnd();
 	}
 	
 	@Override
 	public void cancel() {
+		System.out.print("c");
 		Robot.buttonSubsystem.printCancel();
+		isRunning = false;
 	}
 
 	// Called when another command which requires one or more of the same

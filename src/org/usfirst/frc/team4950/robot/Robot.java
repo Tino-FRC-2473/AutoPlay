@@ -23,6 +23,7 @@ import org.usfirst.frc.team4950.robot.autoplay.UpdaterThread;
 import org.usfirst.frc.team4950.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team4950.robot.subsystems.TimerSubsystem;
 import org.usfirst.frc.team4950.robot.commands.ButtonCommand;
+import org.usfirst.frc.team4950.robot.commands.TimedCommand;
 import org.usfirst.frc.team4950.robot.subsystems.ButtonSubsystem;
 
 /**
@@ -38,6 +39,7 @@ public class Robot extends IterativeRobot {
 	public static final ButtonSubsystem buttonSubsystem = new ButtonSubsystem();
 	public static final ButtonCommand buttonCommand = new ButtonCommand();
 	public static final TimerSubsystem timerSubsystem = new TimerSubsystem();
+	public static final TimedCommand timedCommand = new TimedCommand(1);
 	public static OI oi;
 	public static UpdaterThread updater;
 	public static FlusherThread flusher;
@@ -69,8 +71,6 @@ public class Robot extends IterativeRobot {
 		System.out.println("change the isRecordingForAutoPlay boolean in Robot.");
 		
 		Map<String, Supplier<Command>> systemsMap = new HashMap<>();
-		systemsMap.put("BUTTON", () -> buttonSubsystem.getCurrentCommand());
-		systemsMap.put("TIMED", () -> timerSubsystem.getCurrentCommand());
 		
 		sense = new SensorThread(10);
 		
@@ -89,7 +89,7 @@ public class Robot extends IterativeRobot {
 				System.out.println("**************************************************\n");
 				OutputStream rawOut = socket.getOutputStream();
 				out = new PrintStream(rawOut);
-				updater = new UpdaterThread(systemsMap);
+				updater = new UpdaterThread();
 				flusher = new FlusherThread(out);
 			} catch (IOException e) {
 				e.printStackTrace();
