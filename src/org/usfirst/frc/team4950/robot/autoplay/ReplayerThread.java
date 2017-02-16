@@ -19,13 +19,20 @@ public class ReplayerThread extends Thread {
 		while (alive) {
 			try {
 				Reading r = Moments.getReading(x);
+				Reading p = null;
+				if(x-1 >= 0)
+					p = Moments.getReading(x-1);
+				
 				Robot.exampleSubsystem.power(r.getLeftPow());
-				if (r.getGearMech()) {
+				if (r.getGearMech() && (p == null || !p.getGearMech())) {
 					Robot.buttonCommand.start();
 				}
+				if (r.getShooter() && (p == null || !p.getShooter())) {
+					Robot.timedCommand.start();
+				}
+				
 				if (!r.getGearMech() && x-1 >= 0) {
-					Reading prev = Moments.getReading(x-1);
-					if (prev.getGearMech())
+					if (p != null && p.getGearMech())
 						Robot.buttonCommand.cancel();
 				}
 				x++;
