@@ -1,8 +1,8 @@
 package org.usfirst.frc.team4950.robot.autoplay.clients;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,35 +10,22 @@ import org.usfirst.frc.team4950.robot.autoplay.Reading;
 
 public class TranscriptionClient {
 	public static void main(String[] args) {
-		TranscriptionClient t = new TranscriptionClient(new File("moments.txt"));
-		t.writeJavaFile();
-	}
-	
-	File f;
-	Scanner in;
-
-	public TranscriptionClient(File data) {
-		try {
-			f = data;
-			in = new Scanner(f);
-		} catch(IOException e) {
-			System.out.println(e.getMessage());
-		}
+		TranscriptionClient.writeJavaFile(new File("moments.txt"));
 	}
 
-	public void writeJavaFile() {
-		ArrayList<Reading> readings = getReadingsFromFile();
+	public static void writeJavaFile(File data) {
+		ArrayList<Reading> readings = getReadingsFromFile(data);
 		
 		FileWriter writer;
 		try {
 			//change team # when necessary
-			String path = "package org.usfirst.frc.team4950.robot.autoplay;";
+			String path = "src/org/usfirst/frc/team4950/robot/autoplay/Moments.java";
 			File f = new File(path);
 			f.createNewFile();
 			writer = new FileWriter(f);
 			
 			//change team # when necessary
-			writer.write("package org.usfirst.frc.team4950.robot;" + "\n");
+			writer.write("package org.usfirst.frc.team4950.robot.autoplay;" + "\n");
 			writer.write("import java.util.*;" + "\n");
 			writer.write("\n");
 			writer.write("public class Moments {" + "\n");
@@ -52,8 +39,8 @@ public class TranscriptionClient {
 				writer.write(readings.get(i).getRightPow() + ", ");
 				writer.write(readings.get(i).getGyro() + ", ");
 				writer.write(readings.get(i).getLeftEnc() + ", ");
-				writer.write(readings.get(i).getRightEnc() + ",");
-				writer.write(readings.get(i).getGearMech() + ",");
+				writer.write(readings.get(i).getRightEnc() + ", ");
+				writer.write(readings.get(i).getGearMech() + ", ");
 				writer.write(readings.get(i).getShooter() + ")");
 				if(i < readings.size()-1) {
 					writer.write(",");
@@ -65,7 +52,7 @@ public class TranscriptionClient {
 			writer.write("    );" + "\n");
 			writer.write("\n");
 			writer.write("    public static Reading getReading(int i) { return readings.get(i); }" + "\n");
-			writer.write("    public static int getSize() { return readings.size(); }");
+			writer.write("    public static int getSize() { return readings.size(); }" + "\n");
 			writer.write("}" + "\n");
 			
 			writer.close();
@@ -76,59 +63,47 @@ public class TranscriptionClient {
 		
 	}
 	
-	private ArrayList<Reading> getReadingsFromFile() {
+	private static ArrayList<Reading> getReadingsFromFile(File f) {
 		ArrayList<Reading> arr = new ArrayList<Reading>();
-
-		while(in.hasNextLine()) {
-			arr.add(getReadingFromLine(in.nextLine()));
+		
+		try {
+			Scanner in = new Scanner(f);
+			while(in.hasNextLine()) {
+				arr.add(getReadingFromLine(in.nextLine()));
+			}
+			in.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
 
 		return arr;
 	}
 	
-	
-	
-	private Reading getReadingFromLine(String str) {
-		int i = 0;
-		String n = "";
-		while(str.charAt(i) != ' ') {
-			n += str.charAt(i);
-			i++;
-		}
-		
-		return new Reading(Double.parseDouble(n), 0, 0, 0, 0, false, false);
-		
-		/*ArrayList<Integer> spaces = new ArrayList<Integer>();
-		for(int j = 0; j < str.length(); j++) {
-			if(str.charAt(j) == ' ') {
-				spaces.add(j);
+	private static Reading getReadingFromLine(String str) {
+		ArrayList<String> items = new ArrayList<String>();
+		String item = "";
+		for(int i = 0; i < str.length(); i++) {
+			if(str.charAt(i) == ' ') {
+				items.add(item);
+				item = "";
+			} else {
+				item += str.charAt(i);
 			}
 		}
 		
-		if(spaces.size() < 7) {
-			System.out.println("not enough spaces to account for 7 readings");
-			return new Reading();
-			
+		if(items.size() == 7) {
+			return new Reading (
+				Double.parseDouble(items.get(0)),	//l_pow
+				Double.parseDouble(items.get(1)),	//r_pow
+				Double.parseDouble(items.get(2)),	//gyro
+				Integer.parseInt(items.get(3)),		//l_enc
+				Integer.parseInt(items.get(4)),		//r_enc
+				Boolean.getBoolean(items.get(5)),	//g_mech
+				Boolean.getBoolean(items.get(6))	//shoot
+			);
 		} else {
-			for(int j = 0; j < spaces.size(); j++) {
-				String data;
-				switch(j) {
-				case 0:
-					data = str.substring(0, spaces.get(i));
-					break;
-				case 6:
-					data = str.substring(spaces.get(i)+1, str.length());
-					break;
-				default:
-					data = str.substring(spaces.get(i)+1, spaces.get(i+1));
-					break;
-				}
-				
-				
-			}
-			
-			
-			return new Reading(lp, rp, g, le, re, gm, s);
-		}*/
+			System.out.println("Trying to parse line, but it has " + items.size() + " items.");
+			return new Reading();
+		}
 	}
 }
