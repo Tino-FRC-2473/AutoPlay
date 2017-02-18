@@ -35,8 +35,8 @@ public class ButtonCommand extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		System.out.print("e");
 		Robot.buttonSubsystem.printEnd();
+		isRunning = false;
 	}
 	
 	@Override

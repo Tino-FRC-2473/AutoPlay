@@ -44,6 +44,7 @@ public class TimedCommand extends Command {
 	@Override
 	public void cancel() {
 		Robot.timerSubsystem.printCancel();
+		isRunning = false;
 	}
 
 	// Called when another command which requires one or more of the same

@@ -1,11 +1,6 @@
 package org.usfirst.frc.team4950.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-
-import org.usfirst.frc.team4950.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4950.robot.commands.TimedCommand;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,7 +10,6 @@ import java.util.function.DoubleSupplier;
 
 import org.usfirst.frc.team4950.robot.Database.ButtonName;
 import org.usfirst.frc.team4950.robot.Database.Value;
-import org.usfirst.frc.team4950.robot.commands.ButtonCommand;
 
 /**
  * This class is the glue that binds the controls on the physical operator
