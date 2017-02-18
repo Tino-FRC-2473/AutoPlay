@@ -30,7 +30,8 @@ public class UpdaterThread extends Thread {
 			try {
 				String str = "";
 				for (Value v : Value.values()) {
-					str += (Database.getInstance().getValue(v) + " ");
+					if(!v.equals(Value.THROTTLE_VALUE) && !v.equals(Value.WHEEL_TWIST))
+						str += (Database.getInstance().getValue(v) + " ");
 				}
 
 				for (String s : commandMap.keySet()) {

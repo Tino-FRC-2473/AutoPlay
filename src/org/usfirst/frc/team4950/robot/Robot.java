@@ -20,9 +20,7 @@ import java.util.function.Supplier;
 import org.usfirst.frc.team4950.robot.autoplay.FlusherThread;
 import org.usfirst.frc.team4950.robot.autoplay.ReplayerThread;
 import org.usfirst.frc.team4950.robot.autoplay.UpdaterThread;
-import org.usfirst.frc.team4950.robot.commands.ExampleCommand;
 import org.usfirst.frc.team4950.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team4950.robot.subsystems.ExampleSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the

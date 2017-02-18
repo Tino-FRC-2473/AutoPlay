@@ -36,9 +36,8 @@ public class Database {
 	 * 
 	 */
 	public enum Value {
-		LEFT_POWER/*, /*GYRO, LEFT_ENCODER*/; // RIGHT_ENCODER, RIGHT_POWER; // add
-										// buttons
-
+		LEFT_POWER, RIGHT_POWER, GYRO, LEFT_ENC, RIGHT_ENC,
+		THROTTLE_VALUE, WHEEL_TWIST;
 	}
 
 	/**

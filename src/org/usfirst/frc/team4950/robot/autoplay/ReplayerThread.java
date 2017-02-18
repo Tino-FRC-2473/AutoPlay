@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4950.robot.autoplay;
 
 import org.usfirst.frc.team4950.robot.Robot;
-import org.usfirst.frc.team4950.robot.subsystems.ExampleSubsystem;
 
 public class ReplayerThread extends Thread {
 	int x;
@@ -14,7 +13,7 @@ public class ReplayerThread extends Thread {
 		while (alive) {
 			try {
 				Reading r = Moments.getReading(x);
-				Robot.exampleSubsystem.power(r.getLeftPow());
+				//Robot.exampleSubsystem.power(r.getLeftPow());
 				x++;
 				if (x >= Moments.getSize()) {
 					alive = false;

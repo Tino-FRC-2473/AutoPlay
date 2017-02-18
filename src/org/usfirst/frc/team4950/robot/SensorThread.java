@@ -16,7 +16,7 @@ public class SensorThread extends Thread {
 
 	// add new sensors here
 	AnalogGyro gyro;
-	CANTalon leftEncoder; // rightEncoder;
+	CANTalon leftEncoder, rightEncoder;
 	private volatile boolean alive = true;
 	long lastTime;
 	int delay;
@@ -28,30 +28,26 @@ public class SensorThread extends Thread {
 
 	public SensorThread(int delay) {
 
-		leftEncoder = Robot.exampleSubsystem.leftMotor;
-
 		this.delay = delay;
 
 		// add new sensors here
 		this.gyro = Robot.gyro;
+		this.leftEncoder = new CANTalon(RobotMap.leftBackMotor);
+		this.rightEncoder = new CANTalon(RobotMap.rightFrontMotor);
 
-		//leftEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		// rightEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		leftEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		rightEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 
 		resetEncoders();
 
 		tempMap = new HashMap<>();
 
 		callMap = new HashMap<>();
-
-		// add the sensor name in the Values enum and the method of the sensor
-		// that returns the sensor value.
-		//callMap.put(Value.LEFT_ENCODER, () -> leftEncoder.getEncPosition());
-		// callMap.put(Value.RIGHT_ENCODER, () ->
-		// rightEncoder.getEncPosition());
-		callMap.put(Value.LEFT_POWER, () -> Robot.exampleSubsystem.leftMotor.get());
-		// callMap.put(Value.RIGHT_POWER, () -> rightEncoder.get());
-		//callMap.put(Value.GYRO, () -> gyro.getAngle());//
+		callMap.put(Value.LEFT_POWER, () -> Robot.driveTrain.getLPow());
+		callMap.put(Value.RIGHT_POWER, () -> Robot.driveTrain.getLPow());
+		callMap.put(Value.GYRO, () -> gyro.getAngle());
+		callMap.put(Value.RIGHT_ENC, () -> rightEncoder.getEncPosition() * Database.RIGHT_ENC_CONSTANT);
+		callMap.put(Value.LEFT_ENC, () -> -leftEncoder.getEncPosition() * Database.LEFT_ENC_CONSTANT);
 
 		callMap = Collections.unmodifiableMap(callMap);
 		super.setDaemon(true);
@@ -67,11 +63,10 @@ public class SensorThread extends Thread {
 	@Override
 	public void run() {
 		while (alive) {
-
-			// System.out.println(System.currentTimeMillis() - lastTime);
 			
 			updateSensors();
-			//System.out.println();
+			Robot.oi.updateJoysticks();
+//			Robot.oi.updateButtons();
 
 			lastTime = System.currentTimeMillis();
 			// Thread.yield();
@@ -82,7 +77,7 @@ public class SensorThread extends Thread {
 			}
 
 		}
-		System.out.println("dead");
+		System.out.println("sensor dead");
 	}
 
 	private void updateSensors() {
