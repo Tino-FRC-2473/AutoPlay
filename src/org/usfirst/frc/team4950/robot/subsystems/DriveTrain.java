@@ -6,6 +6,12 @@ import org.usfirst.frc.team4950.robot.Database;
 import org.usfirst.frc.team4950.robot.Robot;
 import org.usfirst.frc.team4950.robot.RobotMap;
 import org.usfirst.frc.team4950.robot.commands.RecordForAutoPlay;
+import org.usfirst.frc.team4950.robot.Database;
+import org.usfirst.frc.team4950.robot.Robot;
+import org.usfirst.frc.team4950.robot.RobotMap;
+import org.usfirst.frc.team4950.robot.commands.Drive;
+
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.ctre.CANTalon;
 
@@ -28,6 +34,7 @@ public class DriveTrain extends Subsystem {
 
 	private RobotDrive drive;
 	private static ReentrantReadWriteLock readWriteLock;
+	private ReentrantReadWriteLock rwLock;
 	
 	public DriveTrain() {
 		super();
@@ -53,6 +60,8 @@ public class DriveTrain extends Subsystem {
     
     public void drive(double left, double right) {
     	drive.tankDrive(left, right);
+		
+		rwLock = new ReentrantReadWriteLock();
 	}
 
     public void driveArcade(double speed, double rotate) {
@@ -60,15 +69,23 @@ public class DriveTrain extends Subsystem {
 	}
     
     public double getLPow() {
-    	return leftFrontCAN.get();
+    	rwLock.readLock().lock();
+    	try {
+        	return leftFrontCAN.get();
+    	}
+    	finally {
+    		rwLock.readLock().unlock();
+    	}
     }
     
     public double getRPow() {
-    	return rightFrontCAN.get();
-    }
-    
-    public double getLEnc() {
-    	return leftFrontCAN.getEncPosition();
+    	rwLock.readLock().lock();
+    	try {
+        	return rightFrontCAN.get();
+    	}
+    	finally {
+    		rwLock.readLock().unlock();
+    	}
     }
 }
 

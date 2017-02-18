@@ -145,7 +145,7 @@ public class Database {
 	 * joystick values
 	 */
 	public void log() {
-
+		
 	}
 
 }

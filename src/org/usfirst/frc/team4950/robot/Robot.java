@@ -60,7 +60,8 @@ public class Robot extends IterativeRobot {
 		System.out.println("**************************************************");
 		System.out.println("If you want to change what portion of AutoPlay to run,");
 		System.out.println("change the isRecordingForAutoPlay boolean in Robot.");
-		
+
+		oi = new OI();
 		Map<String, Supplier<Command>> systemsMap = new HashMap<>();
 		systemsMap.put("EXAMPLE_SUBSYSTEM", () -> driveTrain.getCurrentCommand());
 		

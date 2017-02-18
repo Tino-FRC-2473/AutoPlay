@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class UpdaterThread extends Thread {
 	Map<String, Supplier<Command>> commandMap;
-	Map<String, DoubleSupplier> motorMaker; //unused??
 	boolean alive = true;
 
 	public UpdaterThread(Map<String, Supplier<Command>> systems) {

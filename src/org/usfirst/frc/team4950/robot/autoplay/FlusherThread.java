@@ -10,7 +10,6 @@ public class FlusherThread extends Thread {
 
 	PrintStream out;
 	
-	
 	public FlusherThread(PrintStream out) {
 		this.out = out;
 		alive = true;
@@ -23,15 +22,14 @@ public class FlusherThread extends Thread {
 
 	@Override
 	public void run() {
-		while (alive) {
-			ArrayList<String> arr = new ArrayList<>();
-			Robot.tempData.drainTo(arr);
-			
-			for(int i = 0; i < arr.size(); i++) {
-				out.println(arr.get(i));
-			}
-			
+		while(alive) {
 			try {
+				ArrayList<String> arr = new ArrayList<>();
+				Robot.tempData.drainTo(arr);
+				
+				for(int i = 0; i < arr.size(); i++) {
+					out.println(arr.get(i));
+				}
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
