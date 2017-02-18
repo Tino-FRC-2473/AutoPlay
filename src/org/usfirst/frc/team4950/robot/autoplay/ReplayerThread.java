@@ -16,9 +16,11 @@ public class ReplayerThread extends Thread {
 		x = 0;
 	}
 	public void run() {
+		System.out.println("in thread started run");
 		while (alive) {
 			try {
 				Reading r = Moments.getReading(x);
+				System.out.println(r);
 				Reading p = null;
 				if(x-1 >= 0)
 					p = Moments.getReading(x-1);

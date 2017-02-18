@@ -32,6 +32,7 @@ public class UpdaterThread extends Thread {
 				for (Value v : Value.values()) {
 					str += (Database.getInstance().getValue(v) + " ");
 				}
+				str += "0.0 0.0 0 0 ";
 				
 				boolean b1 = Robot.buttonCommand.isRunning, b2 = Robot.timedCommand.isRunning;
 				
