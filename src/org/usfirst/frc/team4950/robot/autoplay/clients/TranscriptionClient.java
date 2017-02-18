@@ -98,8 +98,8 @@ public class TranscriptionClient {
 				Double.parseDouble(items.get(2)),	//gyro
 				Integer.parseInt(items.get(3)),		//l_enc
 				Integer.parseInt(items.get(4)),		//r_enc
-				Boolean.getBoolean(items.get(5)),	//g_mech
-				Boolean.getBoolean(items.get(6))	//shoot
+				items.get(5).equals("true"),		//g_mech
+				items.get(6).equals("true")		//shoot
 			);
 		} else {
 			System.out.println("Trying to parse line, but it has " + items.size() + " items.");

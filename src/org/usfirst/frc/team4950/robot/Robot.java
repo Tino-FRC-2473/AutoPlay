@@ -48,7 +48,7 @@ public class Robot extends IterativeRobot {
 	PrintStream out;
 	public static ReplayerThread replayer;
 
-	public static boolean isRecordingForAutoPlay = true;
+	public static boolean isRecordingForAutoPlay = false;
 	
 	public static ArrayBlockingQueue<String> tempData;
 
@@ -129,8 +129,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		if(!isRecordingForAutoPlay)
+		if(!isRecordingForAutoPlay) {
+			System.out.println("replay start");
 			replayer.start();
+		}
 	}
 
 	/**
