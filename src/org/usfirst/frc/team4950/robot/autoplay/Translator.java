@@ -18,7 +18,7 @@ public class Translator extends Thread{
 			Reading r = m.getReading(index);
 			Robot.driveTrain.drive(r.getLeftPow(),r.getRightPow());
 			index++;
-			if (index >= m.getReadings().size()) {
+			if (index >= m.getSize()) {
 				alive = false;
 			}
 			try {
