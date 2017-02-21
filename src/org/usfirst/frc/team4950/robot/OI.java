@@ -75,7 +75,7 @@ public class OI {
 
 		joyCallMap = new HashMap<>();
 
-		// add joystick calls here
+		//joystick calls here
 		joyCallMap.put(Value.WHEEL_TWIST, () -> getWheel().getX());
 		joyCallMap.put(Value.THROTTLE_VALUE, () -> getThrottle().getZ());
 
@@ -94,7 +94,6 @@ public class OI {
 	}
 
 	public void updateJoysticks() {
-
 		// snapshots the current joystick
 		for (Value v : joyCallMap.keySet()) {
 			joyMap.put(v, joyCallMap.get(v).getAsDouble());

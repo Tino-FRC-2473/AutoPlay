@@ -5,9 +5,13 @@ import java.util.ArrayList;
 
 import org.usfirst.frc.team4950.robot.Robot;
 
+//This class flushes out the ArrayBlockingQueue tempData from Robot,
+//and prints the data to the given PrintStream.
 public class FlusherThread extends Thread {
+	//boolean that determines whether the thread should continue running
 	boolean alive;
 
+	//PrintStream that has all values printed out to
 	PrintStream out;
 	
 	public FlusherThread(PrintStream out) {
@@ -20,6 +24,8 @@ public class FlusherThread extends Thread {
 		alive = false;
 	}
 
+	//Drains all data in the ArrayBlockingQueue in Robot to an
+	//ArrayList, which then is printed out to the PrintStream out.
 	@Override
 	public void run() {
 		while(alive) {

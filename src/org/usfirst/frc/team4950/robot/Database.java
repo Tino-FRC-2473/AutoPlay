@@ -69,6 +69,7 @@ public class Database {
 	 * A map between the Value enum and their respective value holders
 	 */
 	private Map<Value, ThreadSafeHolder> map;
+	
 	/**
 	 * A map between the ButtonName enum and their respective actual buttons
 	 */

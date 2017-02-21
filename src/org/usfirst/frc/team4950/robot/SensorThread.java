@@ -14,20 +14,25 @@ import com.ctre.CANTalon.FeedbackDevice;
 
 
 public class SensorThread extends Thread {
-
-	//add new sensors here
+	//things to record
 	AnalogGyro gyro;
 	CANTalon leftEncoder, rightEncoder;
+	
+	//boolean that determines whether this thread runs
 	private volatile boolean alive = true;
+	
 	long lastTime;
 	double leftEncoderZero, rightEncoderZero;
 	int delay;
 
+	//a map with current values
 	private Map<Database.Value, Double> tempMap;
 
 	//a map of how each value is called
 	private Map<Database.Value, DoubleSupplier> callMap;
 
+	//initializes attributes and adds functions to callMap
+	//resets encoders and sets feedback devices for encoders
 	public SensorThread(int delay) {
 		this.delay = delay;
 		
@@ -46,10 +51,10 @@ public class SensorThread extends Thread {
 		callMap = new HashMap<>();
 
 		callMap.put(Value.LEFT_POWER, () -> Robot.driveTrain.getLPow());
-		callMap.put(Value.RIGHT_POWER, () -> Robot.driveTrain.getLPow());
-		callMap.put(Value.GYRO, () -> gyro.getAngle());
-		callMap.put(Value.RIGHT_ENC, () -> rightEncoder.getEncPosition() * Database.RIGHT_ENC_CONSTANT);
-		callMap.put(Value.LEFT_ENC, () -> -leftEncoder.getEncPosition() * Database.LEFT_ENC_CONSTANT);
+		callMap.put(Value.RIGHT_POWER, () -> Robot.driveTrain.getRPow());
+		callMap.put(Value.GYRO, () -> /*gyro.getAngle()*/0);
+		callMap.put(Value.RIGHT_ENC, () -> (rightEncoder.getEncPosition()-rightEncoderZero) * Database.RIGHT_ENC_CONSTANT);
+		callMap.put(Value.LEFT_ENC, () -> (-leftEncoder.getEncPosition()-leftEncoderZero) * Database.LEFT_ENC_CONSTANT);
 
 		callMap = Collections.unmodifiableMap(callMap);
 		super.setDaemon(true);
@@ -60,13 +65,13 @@ public class SensorThread extends Thread {
 	 * It continuously polls sensors and then sleeps for delay length while alive and running.
 	 * When it is not running it simply waits and stops running when it is not alive
 	 */
-
 	@Override
 	public void run() {
 		while (alive) {
+			//updates sensors, joysticks, and buttons
 			updateSensors();
 			Robot.oi.updateJoysticks();
-//			Robot.oi.updateButtons();
+			Robot.oi.updateButtons();
 
 			lastTime = System.currentTimeMillis();
 			// Thread.yield();
@@ -80,8 +85,8 @@ public class SensorThread extends Thread {
 		System.out.println("sensor dead");
 	}
 
-	private void updateSensors()
-	{
+	//takes current values for each sensor and pushes them to Database
+	private void updateSensors() {
 		//snapshots a value for every sensor
 		for (Database.Value v : callMap.keySet()) {
 			tempMap.put(v, callMap.get(v).getAsDouble());

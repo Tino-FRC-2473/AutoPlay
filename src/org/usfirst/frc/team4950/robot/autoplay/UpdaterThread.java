@@ -10,10 +10,14 @@ import org.usfirst.frc.team4950.robot.Database.Value;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+//Parses values from Database into to a String, which is then added to Robot.tempData
 public class UpdaterThread extends Thread {
+	//map that contains all command suppliers that are to be recorded
 	Map<String, Supplier<Command>> commandMap;
+	
 	boolean alive = true;
-
+	
+	//initializes the map
 	public UpdaterThread(Map<String, Supplier<Command>> systems) {
 		commandMap = systems;
 		super.setDaemon(true);
@@ -23,6 +27,9 @@ public class UpdaterThread extends Thread {
 		alive = false;
 	}
 
+	//creates a String and adds each of the non-joystick values from Value
+	//further adds to the String whether the command suppliers given in the
+	//constructor are running
 	@Override
 	public void run() {
 		while(alive) {

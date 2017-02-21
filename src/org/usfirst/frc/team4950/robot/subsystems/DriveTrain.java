@@ -6,10 +6,6 @@ import org.usfirst.frc.team4950.robot.Database;
 import org.usfirst.frc.team4950.robot.Robot;
 import org.usfirst.frc.team4950.robot.RobotMap;
 import org.usfirst.frc.team4950.robot.commands.RecordForAutoPlay;
-import org.usfirst.frc.team4950.robot.Database;
-import org.usfirst.frc.team4950.robot.Robot;
-import org.usfirst.frc.team4950.robot.RobotMap;
-import org.usfirst.frc.team4950.robot.commands.Drive;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -33,11 +29,12 @@ public class DriveTrain extends Subsystem {
 	private CANTalon rightBackCAN;
 
 	private RobotDrive drive;
-	private static ReentrantReadWriteLock readWriteLock;
 	private ReentrantReadWriteLock rwLock;
 	
 	public DriveTrain() {
 		super();
+		
+		rwLock = new ReentrantReadWriteLock();
 		
 		leftFrontCAN = new CANTalon(RobotMap.leftFrontMotor);
 		rightFrontCAN = new CANTalon(RobotMap.rightFrontMotor);
@@ -58,10 +55,15 @@ public class DriveTrain extends Subsystem {
     		setDefaultCommand(new RecordForAutoPlay());
     }
     
+    public void tankDrive(double l, double r) {
+    	leftFrontCAN.set(-l);
+    	leftBackCAN.set(-l);
+    	rightFrontCAN.set(-r);
+    	rightBackCAN.set(-r);
+    }
+    
     public void drive(double left, double right) {
     	drive.tankDrive(left, right);
-		
-		rwLock = new ReentrantReadWriteLock();
 	}
 
     public void driveArcade(double speed, double rotate) {

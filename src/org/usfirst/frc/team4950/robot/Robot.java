@@ -30,18 +30,23 @@ import org.usfirst.frc.team4950.robot.subsystems.DriveTrain;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	
 	public static final DriveTrain driveTrain = new DriveTrain();
 	public static OI oi;
-	public static UpdaterThread updater;
-	public static FlusherThread flusher;
 	public static AnalogGyro gyro;
 	SensorThread sense;
-	PrintStream out;
+	
+	//AutoPlay threads
+	public static UpdaterThread updater;
+	public static FlusherThread flusher;
 	public static ReplayerThread replayer;
+	//PrintStream for FlusherThread
+	PrintStream out;
 
+	//boolean that sets whether to record or replay for autoplay
+	//true: record, false: replay
 	public static boolean isRecordingForAutoPlay = false;
 	
+	//temporary data of Readings behind this data is flushed out
 	public static ArrayBlockingQueue<String> tempData;
 
 	/**
@@ -61,6 +66,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("If you want to change what portion of AutoPlay to run,");
 		System.out.println("change the isRecordingForAutoPlay boolean in Robot.");
 
+		//Initializations
 		oi = new OI();
 		Map<String, Supplier<Command>> systemsMap = new HashMap<>();
 		systemsMap.put("EXAMPLE_SUBSYSTEM", () -> driveTrain.getCurrentCommand());
@@ -70,13 +76,14 @@ public class Robot extends IterativeRobot {
 		if(isRecordingForAutoPlay) {
 			tempData = new ArrayBlockingQueue<String>(200);
 			
+			//setting up of the server that recieves Readings
 			ServerSocket server;
 			try {
 				System.out.println("**************************************************");
 				System.out.println("You are currently trying to record for AutoPlay.");
 				System.out.println("Start running the RecieverClient; robot code will remain red otherwise.");
 				System.out.println("**************************************************");
-				server = new ServerSocket(8080);
+				server = new ServerSocket(3277);
 				Socket socket = server.accept(); //It will get stuck on this line
 				System.out.println("**************************************************");
 				System.out.println("Connected; enable TeleOp and twist the joystick in port 1.\n");
@@ -125,8 +132,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		if(!isRecordingForAutoPlay)
+		if(!isRecordingForAutoPlay) {
+			System.out.println("replay start");
 			replayer.start();
+		}
 	}
 
 	/**
